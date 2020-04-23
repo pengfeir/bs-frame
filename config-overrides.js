@@ -1,7 +1,19 @@
 /* config-overrides.js */
-const { override, fixBabelImports ,addWebpackAlias,addDecoratorsLegacy,addLessLoader} = require('customize-cra'),
-path = require('path')
-module.exports = override(
+const { override, fixBabelImports ,addWebpackAlias,addDecoratorsLegacy,addLessLoader,overrideDevServer} = require('customize-cra'),
+path = require('path'),
+proxy = () => (configFunction) => {
+  configFunction.proxy = {
+      '/api/': {
+          target: '',
+          changeOrigin: true,
+          pathRewrite: { '^/api': '/' },
+      },
+  };
+
+  return configFunction;
+}
+module.exports = {
+webpack:override(
   fixBabelImports('import', {
     libraryName: 'antd',
     libraryDirectory: 'es',
@@ -14,5 +26,9 @@ module.exports = override(
     javascriptEnabled: true,
   }),
   addDecoratorsLegacy()
-);
+),
+// devServer: overrideDevServer(
+//   proxy()
+// )
+}
 

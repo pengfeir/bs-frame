@@ -4,6 +4,8 @@ import "./index.less"
 class login extends Component {
   public render() {
     return (
+      <>
+      <div>222</div>
       <div className="app-login">
         <div>
           <label className="app-login-label">
@@ -19,6 +21,7 @@ class login extends Component {
         </div>
         <Button>登录</Button>
       </div>
+      </>
     );
   }
 }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Layout} from 'antd';
 import Menu from "@/container/menu";
 import "./index.less";
+import {demo} from "@/api"
 const { Header, Content, Sider } = Layout;
 
 class content extends Component {
@@ -14,6 +15,18 @@ class content extends Component {
       collapsed: !this.state.collapsed,
     });
   };
+  componentWillMount(){
+    this._demo()
+  }
+  async _demo(){
+    try{
+      console.log(5555)
+     let data =  await demo({name:1})
+     console.log(data,2222)
+    }catch(err){
+
+    }
+  }
   public render() {
     return (
       <Layout className="layout">

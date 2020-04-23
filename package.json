@@ -13,6 +13,7 @@
     "@types/react-redux": "^7.1.7",
     "@types/react-router-dom": "^5.1.4",
     "antd": "^4.1.4",
+    "axios": "^0.19.2",
     "babel-plugin-import": "^1.13.0",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
@@ -50,6 +51,7 @@
     "commitizen": "^4.0.4",
     "customize-cra": "^0.9.1",
     "cz-conventional-changelog": "^3.1.0",
+    "mockjs": "^1.1.0",
     "react-app-rewired": "^2.1.5"
   },
   "config": {
