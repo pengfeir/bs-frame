@@ -20,7 +20,7 @@ export default class Routers extends Component{
                 <Route path="/content" render={ () =>
                   <Content>
                     <Switch>
-                      <Route path="/content/permission" component={ Chart } />
+                      <Route path="/content/chart" component={ Chart } />
                       <Route path="/content/home" component={ Home } />
                       <Redirect to="/content/home" />
                     </Switch>

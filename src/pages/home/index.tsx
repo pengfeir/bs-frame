@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-class App extends Component {
+class Home extends Component {
   public render() {
     return (
-      <div className="App">
-        home
+      <div>
+        首页
       </div>
     );
   }
 }
-export default App;
+export default Home;

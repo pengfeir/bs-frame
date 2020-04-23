@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-class App extends Component {
+class chart extends Component {
   public render() {
     return (
       <div>
-        56756756
+        图标页
       </div>
     );
   }
 }
-export default App;
+export default chart;
