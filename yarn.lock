@@ -1315,6 +1315,11 @@
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
 
+"@types/mockjs@^1.0.2":
+  version "1.0.2"
+  resolved "http://artifactory.intra.xiaojukeji.com:80/artifactory/api/npm/npm/@types/mockjs/download/@types/mockjs-1.0.2.tgz#89887151c9b903028e9b569a28b4ad079d79943b"
+  integrity sha1-iYhxUcm5AwKOm1aaKLStB515lDs=
+
 "@types/node@*":
   version "13.9.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-13.9.2.tgz#ace1880c03594cc3e80206d96847157d8e7fa349"
