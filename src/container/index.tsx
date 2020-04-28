@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 class Container extends Component {
- render() {
+  render() {
     return (
       <div className="app">
-        { this.props.children }
+        {this.props.children}
       </div>
     );
   }

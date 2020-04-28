@@ -1,22 +1,22 @@
 import axios from "axios";
-const instance:any = axios.create({
+const instance: any = axios.create({
   baseURL: "",
-  timeout: 2000
+  timeout: 2000,
 });
 instance.interceptors.request.use(
-  (config:any) => {
+  (config: any) => {
     return config;
   },
-  (error:any) => {
+  (error: any) => {
     return Promise.reject(error);
   }
 );
 
 instance.interceptors.response.use(
-  (response:any) => {
+  (response: any) => {
     return response;
   },
-  (error:any) => {
+  (error: any) => {
     return Promise.reject(error);
   }
 );

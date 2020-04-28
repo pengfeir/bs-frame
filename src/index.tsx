@@ -3,9 +3,9 @@ import * as ReactDOM from 'react-dom';
 import Routers from '@/router/index';
 import * as serviceWorker from './serviceWorker';
 import '@/styles/index.less';
-import '@/mock' 
+import '@/mock'
 ReactDOM.render(
-      <Routers/>,
+  <Routers login={true} />,
   document.getElementById('root')
 );
 
