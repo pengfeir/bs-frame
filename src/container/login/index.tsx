@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button } from 'antd';
 import "./index.less"
 const Login = () => {
   const [loginstatus, setLoginStatus] = React.useState<boolean>(false);
@@ -44,10 +44,6 @@ const Login = () => {
           rules={[{ required: true, message: '请输入密码' }]}
         >
           <Input.Password />
-        </Form.Item>
-
-        <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-          <Checkbox>记住密码{loginstatus}</Checkbox>
         </Form.Item>
 
         <Form.Item {...tailLayout}>

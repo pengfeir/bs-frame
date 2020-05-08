@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
-class Container extends Component {
-  render() {
-    return (
-      <div className="app">
-        {this.props.children}
-      </div>
-    );
-  }
+import React from 'react';
+const Container: React.FC = props => {
+  console.log(props, "Container")
+  return (
+    <div className="app">
+      {props.children}
+    </div>
+  )
 }
 export default Container;

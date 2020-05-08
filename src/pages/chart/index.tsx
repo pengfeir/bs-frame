@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { Input } from 'antd';
 class chart extends Component {
   public render() {
     return (
       <div>
-        图标页
+        <Input></Input>
       </div>
     );
   }
