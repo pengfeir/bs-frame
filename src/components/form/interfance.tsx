@@ -1,5 +1,5 @@
 interface Props {
-  placeholder?: string
+  placeholder?: string[] | string
   allowClear?: boolean
   btnname?: string
   btntype?: "primary"
@@ -15,6 +15,10 @@ export interface SchemasItem {
   onChange?(v: string | number): void,
   children?: any,
 }
-export interface Schemas {
-  schemas: SchemasItem[]
+export interface SchemasProps {
+  schemas: SchemasItem[],
+  form: any,
+  onFinish(v: object): void,
+  onFieldsChange?(v: any): void,
+  onValuesChange?(v: object): void,
 }

@@ -6,3 +6,10 @@ export const demo = (data: any) => {
     data,
   });
 };
+export const getOption = (data: any) => {
+  return axios({
+    url: "/mock/formselect",
+    method: "post",
+    data,
+  });
+};

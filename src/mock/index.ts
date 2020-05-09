@@ -1,4 +1,7 @@
 import Mock from "mockjs";
+Mock.setup({
+  timeout: "2000-6000",
+});
 var Random = Mock.Random;
 const id: number = Random.integer(20, 100); //随机返回20到100的数字
 Random.float(60, 100, 3, 5); //随机返回60到100的带有3到5位小数的数字
@@ -34,6 +37,22 @@ Mock.mock("/mock/menu", {
           path: "/content/chart",
         },
       ],
+    },
+  ],
+});
+Mock.mock("/mock/formselect", {
+  list: [
+    {
+      id: Random.integer(20, 100),
+      label: "苹果",
+    },
+    {
+      id: Random.integer(20, 100),
+      label: "香蕉",
+    },
+    {
+      id: Random.integer(20, 100),
+      label: "栗子",
     },
   ],
 });

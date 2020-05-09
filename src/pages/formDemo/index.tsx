@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import SchemaForm from "@/components/form";
 import { SchemasItem } from "@/components/form/interfance"
+import { Form } from 'antd';
+import { getOption } from "@/api/index"
 import './index.less'
 const schemas: Array<SchemasItem> = [
   {
@@ -22,10 +24,6 @@ const schemas: Array<SchemasItem> = [
         value: ""
       },
       options: [
-        { name: "name1", value: 1 },
-        { name: "name2", value: 2 },
-        { name: "name3", value: 3 },
-        { name: "name4", value: 4 }
       ]
     }
   },
@@ -45,7 +43,7 @@ const schemas: Array<SchemasItem> = [
   {
     label: "RangePicker",
     name: "apprangepicker", type: "RangePicker", props: {
-      placeholder: "测试DatePicker"
+      placeholder: ["开始日期", "结束日期"]
     }
   },
   {
@@ -72,14 +70,39 @@ const schemas: Array<SchemasItem> = [
   },
 ]
 const FormDemo: React.FC<SchemasItem> = () => {
-  const inputEl = useRef(null);
-  console.log(inputEl, "inputEl")
+  const [state, setOption] = useState(schemas);
+  const [form] = Form.useForm();
   useEffect(() => {
-    console.log('useRef')
-    console.log(inputEl.current)
-  }, [])
+    const _getOption = async () => {
+      const { data: {
+        list
+      }
+      } = await getOption({})
+      console.log(list)
+      state.forEach(v => {
+        if (v.name === "appselect") {
+          v.children.options = list
+        }
+      })
+      setOption(state)
+      console.log(form)
+      form.submit()
+      // if (cur) {
+      //   console.log(list, "list")
+      //   cur.children.options = [...list]
+      //   setOption(state)
+      //   console.log(state, 444)
+      //   form.submit()
+      // }
+    }
+    _getOption()
+  }, [form, state])
+
+  const onFinish = (fieldsValue: any) => {
+    console.log(fieldsValue, 6666)
+  };
   return <>
-    <SchemaForm schemas={schemas} />
+    <SchemaForm schemas={state} onFinish={onFinish} form={form} />
   </>
 }
 

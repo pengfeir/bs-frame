@@ -1,6 +1,6 @@
-import React, { createElement, useState, useImperativeHandle } from 'react';
+import React, { createElement } from 'react';
 import { Form, Row, Col, Button, Input, InputNumber, DatePicker, Select } from 'antd';
-import { SchemasItem, Schemas } from './interfance';
+import { SchemasItem, SchemasProps } from './interfance';
 import "./index.less"
 const { RangePicker } = DatePicker,
   { Option } = Select,
@@ -22,33 +22,23 @@ const { RangePicker } = DatePicker,
       if (onChange) onChange(v)
     }
     let children = options.reduce((childrens: any, cur: any, i: number) => {
-      childrens.push(createElement(formObj[childrenType], { key: i, value: cur.value }, cur.name))
+      childrens.push(createElement(formObj[childrenType], { key: i, value: cur.id }, cur.label))
       return childrens
     }, [])
     return (
       createElement(formObj[type], { ...props.props, onChange: onSelectChange }, children)
     )
   },
-  SchemaForm: React.FC<Schemas> = ({ schemas }, ref) => {
-    console.log(ref)
-    console.log("SchemaForm", "render", schemas)
-    // 此处注意useImperativeHandle方法的的第一个参数是目标元素的ref引用
-    const [form] = Form.useForm();
-    const onFinish = (fieldsValue: any) => {
-      console.log(fieldsValue, form)
-    };
-    const onFieldsChange = (value: any) => {
-      console.log(value, "onFieldsChange")
-    }
+  SchemaForm: React.FC<SchemasProps> = (props) => {
     //2k屏刚好
     const layout = {
       labelCol: { span: 4 },
       wrapperCol: { span: 20 },
     };
     return (
-      <Form name="schema_form" form={form} onFinish={onFinish} onFieldsChange={onFieldsChange} {...layout} className="app-form">
+      <Form name="schema_form" form={props.form} onFinish={(v: any) => props.onFinish(v)} onFieldsChange={props.onFieldsChange} onValuesChange={props.onValuesChange} {...layout} className="app-form">
         <Row>
-          {schemas.filter(v => v.type !== "Button").map((v: SchemasItem, i: number) =>
+          {props.schemas.filter(v => v.type !== "Button").map((v: SchemasItem, i: number) =>
             <Col span={v.span || 8} key={i}>
               <Form.Item
                 name={v.name}
@@ -67,15 +57,15 @@ const { RangePicker } = DatePicker,
           )}
           <Col span={4}>
             <Form.Item>
-              {schemas.filter(v => v.type === "Button").map((v, i) => {
+              {props.schemas.filter(v => v.type === "Button").map((v, i) => {
                 switch (v.props.formtype) {
                   case 'submit':
-                    return <Button type={v.props.btntype} key={i} {...v.props} htmlType="submit">
+                    return <Button type={v.props.btntype} key={i} className={v.props.className} htmlType="submit">
                       {v.props.btnname}
                     </Button>
                   case 'reset':
-                    return <Button type={v.props.btntype} key={i} {...v.props} onClick={() => {
-                      form.resetFields();
+                    return <Button type={v.props.btntype} key={i} className={v.props.className} onClick={() => {
+                      props.form.resetFields();
                     }}>
                       {v.props.btnname}
                     </Button>
@@ -85,7 +75,7 @@ const { RangePicker } = DatePicker,
               })}
             </Form.Item>
           </Col>
-        </Row>
+        </Row >
       </Form >
     )
   };
