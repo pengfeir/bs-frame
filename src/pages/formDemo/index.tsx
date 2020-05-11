@@ -9,12 +9,28 @@ const schemas: Array<SchemasItem> = [
     label: "input输入框",
     name: "appinput", type: "Input", props: {
       placeholder: "测试input输入框",
-      allowClear: true
+      allowClear: true,
+      autoComplete: "off",
     }
   },
   {
     label: "Select",
     name: "appselect", type: "Select", props: {
+      placeholder: "测试Select",
+      allowClear: true
+    },
+    children: {
+      type: "Option",
+      props: {
+        value: ""
+      },
+      options: [
+      ]
+    }
+  },
+  {
+    label: "secSelect",
+    name: "appsecselect", type: "Select", props: {
       placeholder: "测试Select",
       allowClear: true
     },
@@ -79,24 +95,19 @@ const FormDemo: React.FC<SchemasItem> = () => {
       }
       } = await getOption({})
       console.log(list)
-      state.forEach(v => {
+      schemas.forEach(v => {
         if (v.name === "appselect") {
           v.children.options = list
         }
       })
-      setOption(state)
-      console.log(form)
+      setOption((state) => {
+        return [...state]
+      })
+      console.log("_getOption", form)
       form.submit()
-      // if (cur) {
-      //   console.log(list, "list")
-      //   cur.children.options = [...list]
-      //   setOption(state)
-      //   console.log(state, 444)
-      //   form.submit()
-      // }
     }
     _getOption()
-  }, [form, state])
+  }, [form])
 
   const onFinish = (fieldsValue: any) => {
     console.log(fieldsValue, 6666)

@@ -1,6 +1,7 @@
 interface Props {
   placeholder?: string[] | string
   allowClear?: boolean
+  autoComplete?: string
   btnname?: string
   btntype?: "primary"
   className?: string
@@ -19,6 +20,6 @@ export interface SchemasProps {
   schemas: SchemasItem[],
   form: any,
   onFinish(v: object): void,
-  onFieldsChange?(v: any): void,
+  onFieldsChange?(v: object): void,
   onValuesChange?(v: object): void,
 }

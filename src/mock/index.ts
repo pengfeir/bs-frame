@@ -44,15 +44,13 @@ Mock.mock("/mock/formselect", {
   list: [
     {
       id: Random.integer(20, 100),
-      label: "苹果",
+      value: 1,
+      label: "水果",
     },
     {
       id: Random.integer(20, 100),
-      label: "香蕉",
-    },
-    {
-      id: Random.integer(20, 100),
-      label: "栗子",
+      value: 2,
+      label: "动物",
     },
   ],
 });

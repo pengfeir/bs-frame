@@ -13,7 +13,6 @@ const { RangePicker } = DatePicker,
     "Option": Option,
   },
   AppSelect: React.FC<SchemasItem> = ({ onChange, ...props }) => {
-    console.log("MySelect", "render", props)
     const { type, children: { type: childrenType, options } } = props
     const onSelectChange = (e: string | number) => {
       sendValue(e)
@@ -22,7 +21,7 @@ const { RangePicker } = DatePicker,
       if (onChange) onChange(v)
     }
     let children = options.reduce((childrens: any, cur: any, i: number) => {
-      childrens.push(createElement(formObj[childrenType], { key: i, value: cur.id }, cur.label))
+      childrens.push(createElement(formObj[childrenType], { key: i, value: cur.value }, cur.label))
       return childrens
     }, [])
     return (
@@ -30,7 +29,6 @@ const { RangePicker } = DatePicker,
     )
   },
   SchemaForm: React.FC<SchemasProps> = (props) => {
-    //2k屏刚好
     const layout = {
       labelCol: { span: 4 },
       wrapperCol: { span: 20 },
