@@ -13,6 +13,7 @@ const { RangePicker } = DatePicker,
     "Option": Option,
   },
   AppSelect: React.FC<SchemasItem> = ({ onChange, ...props }) => {
+    console.log("AppSelect-render", props)
     const { type, children: { type: childrenType, options } } = props
     const onSelectChange = (e: string | number) => {
       sendValue(e)
@@ -29,12 +30,13 @@ const { RangePicker } = DatePicker,
     )
   },
   SchemaForm: React.FC<SchemasProps> = (props) => {
+    console.log("SchemaForm-render")
     const layout = {
       labelCol: { span: 4 },
       wrapperCol: { span: 20 },
     };
     return (
-      <Form name="schema_form" form={props.form} onFinish={(v: any) => props.onFinish(v)} onFieldsChange={props.onFieldsChange} onValuesChange={props.onValuesChange} {...layout} className="app-form">
+      <Form name="schema_form" form={props.form} onFinish={(v: any) => props.onFinish(v)} onValuesChange={props.onValuesChange} onFieldsChange={props.onFieldsChange}   {...layout} className="app-form">
         <Row>
           {props.schemas.filter(v => v.type !== "Button").map((v: SchemasItem, i: number) =>
             <Col span={v.span || 8} key={i}>

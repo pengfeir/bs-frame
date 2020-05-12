@@ -1,6 +1,6 @@
 import Mock from "mockjs";
 Mock.setup({
-  timeout: "2000-6000",
+  timeout: "200-2000",
 });
 var Random = Mock.Random;
 const id: number = Random.integer(20, 100); //随机返回20到100的数字
@@ -54,3 +54,49 @@ Mock.mock("/mock/formselect", {
     },
   ],
 });
+const postData = (req: any, res: any) => {
+  console.log(req, 99999999);
+  let { value } = JSON.parse(req.body);
+  let list: any;
+  if (value === 1) {
+    list = [
+      {
+        id: Random.integer(20, 100),
+        value: 1,
+        label: "香蕉",
+      },
+      {
+        id: Random.integer(20, 100),
+        value: 2,
+        label: "苹果",
+      },
+      {
+        id: Random.integer(20, 100),
+        value: 3,
+        label: "桃子",
+      },
+    ];
+  } else if (value === 2) {
+    list = [
+      {
+        id: Random.integer(20, 100),
+        value: 4,
+        label: "拉布拉多",
+      },
+      {
+        id: Random.integer(20, 100),
+        value: 5,
+        label: "金毛",
+      },
+    ];
+  } else {
+    list = [];
+  }
+  // 返回状态码和文章数据posts
+  return {
+    errno: 0,
+    errmsg: "ok",
+    list,
+  };
+};
+Mock.mock("/mock/levelformselect", postData);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import SchemaForm from "@/components/form";
 import { SchemasItem } from "@/components/form/interfance"
 import { Form } from 'antd';
-import { getOption } from "@/api/index"
+import { getOption, getLevelOption } from "@/api/index"
 import './index.less'
 const schemas: Array<SchemasItem> = [
   {
@@ -32,7 +32,7 @@ const schemas: Array<SchemasItem> = [
     label: "secSelect",
     name: "appsecselect", type: "Select", props: {
       placeholder: "测试Select",
-      allowClear: true
+      allowClear: true,
     },
     children: {
       type: "Option",
@@ -89,31 +89,54 @@ const FormDemo: React.FC<SchemasItem> = () => {
   const [state, setOption] = useState(schemas);
   const [form] = Form.useForm();
   useEffect(() => {
+    let isDestroyed = false;
     const _getOption = async () => {
       const { data: {
         list
       }
       } = await getOption({})
-      console.log(list)
       schemas.forEach(v => {
         if (v.name === "appselect") {
           v.children.options = list
         }
       })
-      setOption((state) => {
-        return [...state]
-      })
-      console.log("_getOption", form)
-      form.submit()
+      if (!isDestroyed) {
+        setOption((state) => {
+          return [...state]
+        })
+        form.submit()
+      }
     }
     _getOption()
+    return () => {
+      isDestroyed = true;
+    }
   }, [form])
-
-  const onFinish = (fieldsValue: any) => {
-    console.log(fieldsValue, 6666)
+  const _getLevelOption = async (value: object) => {
+    const { data: {
+      list
+    } } = await getLevelOption({ value })
+    schemas.forEach(v => {
+      if (v.name === "appsecselect") {
+        v.children.options = list
+      }
+    })
+    setOption((state) => {
+      return [...state]
+    })
+  }
+  const onFinish = (fieldsValue: object) => {
+    console.log(fieldsValue, "查询条件")
   };
+  const onValuesChange = (curChangeValue: any) => {
+    console.log("onValuesChange", curChangeValue)
+    if (curChangeValue.hasOwnProperty("appselect")) {
+      form.setFieldsValue({ appsecselect: null })
+      _getLevelOption(curChangeValue["appselect"])
+    }
+  }
   return <>
-    <SchemaForm schemas={state} onFinish={onFinish} form={form} />
+    <SchemaForm schemas={state} onFinish={onFinish} onValuesChange={onValuesChange} form={form} />
   </>
 }
 
