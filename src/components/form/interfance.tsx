@@ -5,6 +5,7 @@ interface Props {
   btnname?: string
   btntype?: "primary"
   className?: string
+  loading?: boolean,
   formtype?: "submit" | "reset"
 }
 export interface SchemasItem {
@@ -17,9 +18,13 @@ export interface SchemasItem {
   children?: any,
 }
 export interface SchemasProps {
-  schemas: SchemasItem[],
+  schemas: ObjectAny,
   form: any,
   onFinish(v: object): void,
   onFieldsChange?(v: object): void,
   onValuesChange?(v: object): void,
+}
+export interface ObjectAny {
+  [propName: string
+  ]: any;
 }

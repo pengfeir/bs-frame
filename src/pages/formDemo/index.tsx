@@ -1,68 +1,59 @@
 import React, { useState, useEffect } from 'react';
 import SchemaForm from "@/components/form";
-import { SchemasItem } from "@/components/form/interfance"
+import { SchemasItem, ObjectAny } from "@/components/form/interfance"
 import { Form } from 'antd';
 import { getOption, getLevelOption } from "@/api/index"
 import './index.less'
-const schemas: Array<SchemasItem> = [
-  {
+const schemas: ObjectAny = {
+  appinput: {
     label: "input输入框",
-    name: "appinput", type: "Input", props: {
+    type: "Input", props: {
       placeholder: "测试input输入框",
       allowClear: true,
       autoComplete: "off",
     }
   },
-  {
+  appselect: {
     label: "Select",
-    name: "appselect", type: "Select", props: {
+    type: "Select", props: {
       placeholder: "测试Select",
-      allowClear: true
+      allowClear: true,
+      loading: true
     },
     children: {
       type: "Option",
-      props: {
-        value: ""
-      },
-      options: [
-      ]
     }
   },
-  {
+  appsecselect: {
     label: "secSelect",
-    name: "appsecselect", type: "Select", props: {
+    type: "Select", props: {
       placeholder: "测试Select",
       allowClear: true,
     },
     children: {
       type: "Option",
-      props: {
-        value: ""
-      },
-      options: [
-      ]
     }
   },
-  {
+  appinputnumber: {
     label: "InputNumber输入框",
-    name: "appinputnumber", type: "InputNumber", props: {
+    type: "InputNumber", props: {
       placeholder: "测试InputNumber输入框"
     }
   },
-  {
+  appdatepicker: {
     label: "DatePicker",
-    name: "appdatepicker", type: "DatePicker",
+    type: "DatePicker",
     props: {
       placeholder: "测试InputNumber输入框"
     }
   },
-  {
+  apprangepicker: {
     label: "RangePicker",
-    name: "apprangepicker", type: "RangePicker", props: {
+    type: "RangePicker", props: {
       placeholder: ["开始日期", "结束日期"]
     }
   },
-  {
+  button: [{
     label: "",
     type: "Button",
     span: 5,
@@ -72,8 +63,7 @@ const schemas: Array<SchemasItem> = [
       btntype: "primary",
       formtype: "submit"
     },
-  },
-  {
+  }, {
     label: "",
     type: "Button",
     span: 5,
@@ -83,26 +73,24 @@ const schemas: Array<SchemasItem> = [
       btntype: "primary",
       formtype: "reset"
     },
-  },
-]
+  }]
+}
 const FormDemo: React.FC<SchemasItem> = () => {
   const [state, setOption] = useState(schemas);
   const [form] = Form.useForm();
   useEffect(() => {
     let isDestroyed = false;
     const _getOption = async () => {
+      schemas["appselect"].props.loading = true
       const { data: {
         list
       }
       } = await getOption({})
-      schemas.forEach(v => {
-        if (v.name === "appselect") {
-          v.children.options = list
-        }
-      })
+      schemas["appselect"].children.options = list
+      schemas["appselect"].props.loading = false
       if (!isDestroyed) {
         setOption((state) => {
-          return [...state]
+          return { ...state }
         })
         form.submit()
       }
@@ -113,23 +101,20 @@ const FormDemo: React.FC<SchemasItem> = () => {
     }
   }, [form])
   const _getLevelOption = async (value: object) => {
+    schemas["appsecselect"].props.loading = true
     const { data: {
       list
     } } = await getLevelOption({ value })
-    schemas.forEach(v => {
-      if (v.name === "appsecselect") {
-        v.children.options = list
-      }
-    })
+    schemas["appsecselect"].children.options = list
+    schemas["appsecselect"].props.loading = false
     setOption((state) => {
-      return [...state]
+      return { ...state }
     })
   }
   const onFinish = (fieldsValue: object) => {
     console.log(fieldsValue, "查询条件")
   };
-  const onValuesChange = (curChangeValue: any) => {
-    console.log("onValuesChange", curChangeValue)
+  const onValuesChange = (curChangeValue: ObjectAny) => {
     if (curChangeValue.hasOwnProperty("appselect")) {
       form.setFieldsValue({ appsecselect: null })
       _getLevelOption(curChangeValue["appselect"])

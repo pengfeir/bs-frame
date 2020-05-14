@@ -1,6 +1,6 @@
 import Mock from "mockjs";
 Mock.setup({
-  timeout: "200-2000",
+  timeout: "3000-5000",
 });
 var Random = Mock.Random;
 const id: number = Random.integer(20, 100); //随机返回20到100的数字

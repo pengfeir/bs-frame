@@ -14,7 +14,7 @@ const { RangePicker } = DatePicker,
   },
   AppSelect: React.FC<SchemasItem> = ({ onChange, ...props }) => {
     console.log("AppSelect-render", props)
-    const { type, children: { type: childrenType, options } } = props
+    const { type, children: { type: childrenType, options = [] } } = props
     const onSelectChange = (e: string | number) => {
       sendValue(e)
     };
@@ -35,21 +35,22 @@ const { RangePicker } = DatePicker,
       labelCol: { span: 4 },
       wrapperCol: { span: 20 },
     };
+    const { schemas } = props
     return (
       <Form name="schema_form" form={props.form} onFinish={(v: any) => props.onFinish(v)} onValuesChange={props.onValuesChange} onFieldsChange={props.onFieldsChange}   {...layout} className="app-form">
         <Row>
-          {props.schemas.filter(v => v.type !== "Button").map((v: SchemasItem, i: number) =>
-            <Col span={v.span || 8} key={i}>
+          {Object.keys(schemas).filter(key => key !== "button").map((name, i) =>
+            <Col span={schemas[name].span || 8} key={i}>
               <Form.Item
-                name={v.name}
-                label={v.label}
+                name={name}
+                label={schemas[name].label}
               >
                 {(() => {
-                  switch (v.type) {
+                  switch (schemas[name].type) {
                     case 'Select':
-                      return <AppSelect {...v} />
+                      return <AppSelect {...schemas[name]} />
                     default:
-                      return createElement(formObj[v.type], { ...v.props }, null)
+                      return createElement(formObj[schemas[name].type], { ...schemas[name].props }, null)
                   }
                 })()}
               </Form.Item>
@@ -57,17 +58,17 @@ const { RangePicker } = DatePicker,
           )}
           <Col span={4}>
             <Form.Item>
-              {props.schemas.filter(v => v.type === "Button").map((v, i) => {
-                switch (v.props.formtype) {
+              {schemas["button"].map((item: any, i: number) => {
+                switch (item.props.formtype) {
                   case 'submit':
-                    return <Button type={v.props.btntype} key={i} className={v.props.className} htmlType="submit">
-                      {v.props.btnname}
+                    return <Button type={item.props.btntype} key={i} className={item.props.className} htmlType="submit">
+                      {item.props.btnname}
                     </Button>
                   case 'reset':
-                    return <Button type={v.props.btntype} key={i} className={v.props.className} onClick={() => {
+                    return <Button type={item.props.btntype} key={i} className={item.props.className} onClick={() => {
                       props.form.resetFields();
                     }}>
-                      {v.props.btnname}
+                      {item.props.btnname}
                     </Button>
                   default:
                     return null
