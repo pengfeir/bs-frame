@@ -20,3 +20,10 @@ export const getLevelOption = (data: any) => {
     data,
   });
 };
+export const getFormInfo = (data: any) => {
+  return axios({
+    url: "/mock/getFormInfo",
+    method: "post",
+    data,
+  });
+};

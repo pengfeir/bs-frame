@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import SchemaForm from "@/components/form";
-import { SchemasItem, ObjectAny } from "@/components/form/interfance"
-import { Form } from 'antd';
-import { getOption, getLevelOption } from "@/api/index"
+import { ObjectAny } from "@/components/form/interfance"
+import { Form, Typography } from 'antd';
+import { getOption, getLevelOption, getFormInfo } from "@/api/index"
 import './index.less'
-const schemas: ObjectAny = {
+import moment from 'moment';
+const { Title } = Typography
+const querySchemas: ObjectAny = {
   appinput: {
     label: "input输入框",
     type: "Input", props: {
@@ -75,43 +77,156 @@ const schemas: ObjectAny = {
     },
   }]
 }
-const FormDemo: React.FC<SchemasItem> = () => {
-  const [state, setOption] = useState(schemas);
+const editSchemas: ObjectAny = {
+  editinput: {
+    label: "input输入框",
+    type: "Input", props: {
+      placeholder: "测试input输入框",
+      allowClear: true,
+      autoComplete: "off",
+    },
+    rules: [
+      {
+        required: true,
+        message: '输入数字',
+      },
+    ]
+  },
+  editselect: {
+    label: "Select",
+    type: "Select", props: {
+      placeholder: "测试Select",
+      allowClear: true,
+      loading: true
+    },
+    rules: [
+      {
+        required: true,
+        message: '选择类型',
+      }
+    ],
+    children: {
+      type: "Option",
+    }
+  },
+  editnumber: {
+    label: "InputNumber输入框",
+    type: "InputNumber", props: {
+      placeholder: "测试InputNumber输入框"
+    },
+    rules: [
+      {
+        required: true,
+        message: '输入数字',
+      }
+    ],
+  },
+  editdatepicker: {
+    label: "DatePicker",
+    type: "DatePicker",
+    props: {
+      placeholder: "测试InputNumber输入框"
+    },
+    rules: [
+      {
+        required: true,
+        message: '选择时间',
+      }
+    ],
+  },
+  editrangepicker: {
+    label: "RangePicker",
+    type: "RangePicker", props: {
+      placeholder: ["开始日期", "结束日期"]
+    },
+    rules: [
+      {
+        required: true,
+        message: '选择日期',
+      }
+    ],
+  },
+  button: [{
+    label: "",
+    type: "Button",
+    span: 12,
+    props: {
+      btnname: "保存",
+      className: "reset",
+      btntype: "primary",
+      formtype: "submit"
+    },
+  }, {
+    label: "",
+    type: "Button",
+    span: 12,
+    props: {
+      className: "reset",
+      btnname: "重置",
+      btntype: "primary",
+      formtype: "reset"
+    },
+  }]
+}
+const FormDemo: React.FC = () => {
+  const [querState, setQuerySchemas] = useState(querySchemas);
+  const [editState, setEditSchemas] = useState(editSchemas);
   const [form] = Form.useForm();
+  const [form1] = Form.useForm();
   useEffect(() => {
     let isDestroyed = false;
     const _getOption = async () => {
-      schemas["appselect"].props.loading = true
+      querySchemas["appselect"].props.loading = true
+      editSchemas["editselect"].props.loading = true
       const { data: {
         list
       }
       } = await getOption({})
-      schemas["appselect"].children.options = list
-      schemas["appselect"].props.loading = false
+      querySchemas["appselect"].children.options = list
+      querySchemas["appselect"].props.loading = false
+      editSchemas["editselect"].children.options = list
+      editSchemas["editselect"].props.loading = false
       if (!isDestroyed) {
-        setOption((state) => {
+        setQuerySchemas((state) => {
+          return { ...state }
+        })
+        setEditSchemas((state) => {
           return { ...state }
         })
         form.submit()
       }
     }
-    _getOption()
+    const _getFormInfo = async () => {
+      _getOption()
+      const { data: {
+        editData
+      }
+      } = await getFormInfo({})
+      form1.setFieldsValue({ ...editData, editdatepicker: moment(editData.editdatepicker, 'YYYY-MM-DD'), editrangepicker: [moment(editData.editdatepicker, 'YYYY-MM-DD'), moment(editData.editdatepicker, 'YYYY-MM-DD')] })
+    }
+    _getFormInfo()
     return () => {
       isDestroyed = true;
     }
-  }, [form])
+  }, [form, form1])
   const _getLevelOption = async (value: object) => {
-    schemas["appsecselect"].props.loading = true
+    querySchemas["appsecselect"].props.loading = true
     const { data: {
       list
     } } = await getLevelOption({ value })
-    schemas["appsecselect"].children.options = list
-    schemas["appsecselect"].props.loading = false
-    setOption((state) => {
+    querySchemas["appsecselect"].children.options = list
+    querySchemas["appsecselect"].props.loading = false
+    setQuerySchemas((state) => {
+      return { ...state }
+    })
+    setEditSchemas((state) => {
       return { ...state }
     })
   }
-  const onFinish = (fieldsValue: object) => {
+  const onQueryFinish = (fieldsValue: object) => {
+    console.log(fieldsValue, "查询条件")
+  };
+  const onEditFinish = (fieldsValue: object) => {
     console.log(fieldsValue, "查询条件")
   };
   const onValuesChange = (curChangeValue: ObjectAny) => {
@@ -121,7 +236,10 @@ const FormDemo: React.FC<SchemasItem> = () => {
     }
   }
   return <>
-    <SchemaForm schemas={state} onFinish={onFinish} onValuesChange={onValuesChange} form={form} />
+    <Title level={3}>查询表单</Title>
+    <SchemaForm schemas={querState} onFinish={onQueryFinish} onValuesChange={onValuesChange} form={form} />
+    <Title level={3}>编辑表单</Title>
+    <SchemaForm schemas={editState} onFinish={onEditFinish} onValuesChange={onValuesChange} form={form1} />
   </>
 }
 

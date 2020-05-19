@@ -54,6 +54,14 @@ Mock.mock("/mock/formselect", {
     },
   ],
 });
+Mock.mock("/mock/getFormInfo", {
+  editData: {
+    editinput: "测试回显",
+    editselect: 1,
+    editnumber: "324234234",
+    editdatepicker: new Date(),
+  },
+});
 const postData = (req: any, res: any) => {
   console.log(req, 99999999);
   let { value } = JSON.parse(req.body);

@@ -4,7 +4,8 @@ import Login from "@/container/login"
 import Container from "@/container"
 import Content from "@/container/content"
 import Chart from "@/pages/chart"
-import Home from "@/pages/formDemo"
+import Form from "@/pages/formDemo"
+import QueryTable from "@/pages/queryTable"
 interface Props {
   login: Boolean
 }
@@ -20,9 +21,9 @@ const Routers: React.FC<Props> = props => {
                   <Content>
                     <Switch>
                       <Route path="/content/chart" component={Chart} />
-                      <Route path="/content/home" component={Home} />
-                      <Route path="/content/form" component={Home} />
-                      <Redirect to="/content/home" />
+                      <Route path="/content/table" component={QueryTable} />
+                      <Route path="/content/form" component={Form} />
+                      <Redirect to="/content/table" />
                     </Switch>
                   </Content>
                 } />

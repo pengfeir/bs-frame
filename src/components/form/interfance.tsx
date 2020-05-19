@@ -19,6 +19,7 @@ export interface SchemasItem {
 }
 export interface SchemasProps {
   schemas: ObjectAny,
+  initialValues?: any,
   form: any,
   onFinish(v: object): void,
   onFieldsChange?(v: object): void,

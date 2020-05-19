@@ -44,6 +44,7 @@ const { RangePicker } = DatePicker,
               <Form.Item
                 name={name}
                 label={schemas[name].label}
+                rules={schemas[name].rules}
               >
                 {(() => {
                   switch (schemas[name].type) {
