@@ -15,7 +15,9 @@ const { RangePicker } = DatePicker,
   AppSelect: React.FC<SchemasItem> = ({ onChange, ...props }) => {
     console.log("AppSelect-render", props)
     const { type, children: { type: childrenType, options = [] } } = props
+    props.props.value = props.props.value ? props.props.value : ""
     const onSelectChange = (e: string | number) => {
+      props.props.value = e
       sendValue(e)
     };
     const sendValue = (v: string | number) => {
@@ -36,6 +38,7 @@ const { RangePicker } = DatePicker,
       wrapperCol: { span: 20 },
     };
     const { schemas } = props
+    const ref = React.createRef();
     return (
       <Form name="schema_form" form={props.form} onFinish={(v: any) => props.onFinish(v)} onValuesChange={props.onValuesChange} onFieldsChange={props.onFieldsChange}   {...layout} className="app-form">
         <Row>
@@ -57,19 +60,20 @@ const { RangePicker } = DatePicker,
               </Form.Item>
             </Col>
           )}
-          <Col span={4}>
+          <Col span={schemas["button"].find((v: any) => v.span).span || 6}>
             <Form.Item>
               {schemas["button"].map((item: any, i: number) => {
-                switch (item.props.formtype) {
+                switch (item.formtype) {
                   case 'submit':
-                    return <Button type={item.props.btntype} key={i} className={item.props.className} htmlType="submit">
-                      {item.props.btnname}
+                    return <Button type={item.btntype} key={i} className={item.className} htmlType="submit">
+                      {item.btnname}
                     </Button>
                   case 'reset':
-                    return <Button type={item.props.btntype} key={i} className={item.props.className} onClick={() => {
+                    return <Button type={item.btntype} key={i} className={item.className} onClick={() => {
+                      console.log(ref)
                       props.form.resetFields();
                     }}>
-                      {item.props.btnname}
+                      {item.btnname}
                     </Button>
                   default:
                     return null

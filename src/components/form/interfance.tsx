@@ -6,6 +6,7 @@ interface Props {
   btntype?: "primary"
   className?: string
   loading?: boolean,
+  value?: string | number,
   formtype?: "submit" | "reset"
 }
 export interface SchemasItem {
@@ -16,6 +17,7 @@ export interface SchemasItem {
   span?: number,
   onChange?(v: string | number): void,
   children?: any,
+  ref?: any
 }
 export interface SchemasProps {
   schemas: ObjectAny,
