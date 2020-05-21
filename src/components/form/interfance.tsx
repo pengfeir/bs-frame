@@ -17,7 +17,8 @@ export interface SchemasItem {
   span?: number,
   onChange?(v: string | number): void,
   children?: any,
-  ref?: any
+  ref?: any,
+  value?: string | number
 }
 export interface SchemasProps {
   schemas: ObjectAny,
