@@ -11,6 +11,9 @@ const MENUARR = [
   {
     path: "/content/table", key: "2", label: "表格"
   },
+  {
+    path: "/content/test", key: "4", label: "test"
+  },
 ]
 const SideMenu: React.FC = () => {
   let path = window.location.pathname,

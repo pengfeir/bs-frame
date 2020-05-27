@@ -18,7 +18,6 @@ Random.cparagraph(); //随机返回一段中文文字
 Random.cparagraph(1, 3); //随机返回1到3段中文文字
 Random.csentence(); //随机返回一句中文
 Random.ctitle(); //随机返回一个中文标题
-
 Mock.mock("/mock/menu", {
   list: [
     {
@@ -61,6 +60,19 @@ Mock.mock("/mock/getFormInfo", {
     editnumber: "324234234",
     editdatepicker: new Date(),
   },
+});
+Mock.mock("/mock/getTableData", {
+  pageSize: 10,
+  pageNumber: 1,
+  total: 100,
+  "data|10": [
+    {
+      name: "@cname",
+      age: "@integer(0-90)",
+      address: "@county(true)",
+      "key|+1": 1,
+    },
+  ],
 });
 const postData = (req: any, res: any) => {
   console.log(req, 99999999);

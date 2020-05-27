@@ -27,3 +27,10 @@ export const getFormInfo = (data: any) => {
     data,
   });
 };
+export const getTableData = (data: any) => {
+  return axios({
+    url: "/mock/getTableData",
+    method: "post",
+    data,
+  });
+};
